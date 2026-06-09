@@ -1,0 +1,78 @@
+[
+  {
+    "id": "bs-software-engineering",
+    "name": "BS Software Engineering",
+    "type": "major",
+    "totalCreditsRequired": 60,
+    "requirements": [
+      {
+        "id": "se-core",
+        "name": "Major Core",
+        "requiredCredits": 36,
+        "courseOptions": [
+          "CSE 110", "CSE 111", "CSE 210", "CSE 220", "CSE 310",
+          "CSE 320", "CSE 330", "CSE 340", "CSE 350", "CSE 360",
+          "CSE 370", "CSE 480", "CSE 481"
+        ]
+      },
+      {
+        "id": "se-math",
+        "name": "Math Requirements",
+        "requiredCredits": 11,
+        "courseOptions": ["MATH 108", "MATH 212", "MATH 213", "FDMAT 108"]
+      },
+      {
+        "id": "se-ge",
+        "name": "General Education",
+        "requiredCredits": 8,
+        "courseOptions": ["WRTG 150", "REL 200"]
+      },
+      {
+        "id": "se-electives",
+        "name": "Major Electives",
+        "requiredCredits": 5,
+        "courseOptions": ["CSE 320", "CSE 330", "CSE 340", "CSE 350", "CSE 360"]
+      }
+    ]
+  },
+  {
+    "id": "minor-computer-science",
+    "name": "Computer Science Minor",
+    "type": "minor",
+    "totalCreditsRequired": 18,
+    "requirements": [
+      {
+        "id": "cs-minor-core",
+        "name": "CS Minor Core",
+        "requiredCredits": 12,
+        "courseOptions": ["CSE 110", "CSE 111", "CSE 210", "CSE 220"]
+      },
+      {
+        "id": "cs-minor-electives",
+        "name": "CS Minor Electives",
+        "requiredCredits": 6,
+        "courseOptions": ["CSE 310", "CSE 320", "CSE 330", "CSE 340"]
+      }
+    ]
+  },
+  {
+    "id": "minor-it",
+    "name": "Information Technology Minor",
+    "type": "minor",
+    "totalCreditsRequired": 15,
+    "requirements": [
+      {
+        "id": "it-minor-core",
+        "name": "IT Minor Core",
+        "requiredCredits": 9,
+        "courseOptions": ["CIT 111", "CIT 230", "CIT 380"]
+      },
+      {
+        "id": "it-minor-electives",
+        "name": "IT Minor Electives",
+        "requiredCredits": 6,
+        "courseOptions": ["CSE 110", "CSE 210", "CIT 230"]
+      }
+    ]
+  }
+]

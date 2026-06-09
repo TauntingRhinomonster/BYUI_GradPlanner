@@ -1,0 +1,178 @@
+[
+  {
+    "id": "CSE 110",
+    "code": "CSE 110",
+    "title": "Introduction to Programming",
+    "credits": 3,
+    "prerequisites": [],
+    "offeredTerms": [{ "season": "Fall", "year": 2025 }, { "season": "Winter", "year": 2026 }]
+  },
+  {
+    "id": "CSE 111",
+    "code": "CSE 111",
+    "title": "Programming with Functions",
+    "credits": 3,
+    "prerequisites": ["CSE 110"],
+    "offeredTerms": [{ "season": "Winter", "year": 2026 }, { "season": "Spring", "year": 2026 }]
+  },
+  {
+    "id": "CSE 210",
+    "code": "CSE 210",
+    "title": "Programming with Classes",
+    "credits": 3,
+    "prerequisites": ["CSE 111"],
+    "offeredTerms": [{ "season": "Fall", "year": 2026 }, { "season": "Winter", "year": 2027 }]
+  },
+  {
+    "id": "CSE 220",
+    "code": "CSE 220",
+    "title": "Software Design and Development",
+    "credits": 3,
+    "prerequisites": ["CSE 210"],
+    "offeredTerms": [{ "season": "Winter", "year": 2027 }, { "season": "Spring", "year": 2027 }]
+  },
+  {
+    "id": "CSE 310",
+    "code": "CSE 310",
+    "title": "Software Engineering",
+    "credits": 3,
+    "prerequisites": ["CSE 220"],
+    "offeredTerms": [{ "season": "Fall", "year": 2027 }]
+  },
+  {
+    "id": "CSE 320",
+    "code": "CSE 320",
+    "title": "Web Engineering",
+    "credits": 3,
+    "prerequisites": ["CSE 210"],
+    "offeredTerms": [{ "season": "Winter", "year": 2027 }, { "season": "Spring", "year": 2028 }]
+  },
+  {
+    "id": "CSE 330",
+    "code": "CSE 330",
+    "title": "Database Systems",
+    "credits": 3,
+    "prerequisites": ["CSE 210"],
+    "offeredTerms": [{ "season": "Fall", "year": 2027 }, { "season": "Spring", "year": 2028 }]
+  },
+  {
+    "id": "CSE 340",
+    "code": "CSE 340",
+    "title": "Operating Systems",
+    "credits": 3,
+    "prerequisites": ["CSE 210"],
+    "offeredTerms": [{ "season": "Winter", "year": 2028 }]
+  },
+  {
+    "id": "CSE 350",
+    "code": "CSE 350",
+    "title": "Software Testing",
+    "credits": 3,
+    "prerequisites": ["CSE 220"],
+    "offeredTerms": [{ "season": "Spring", "year": 2028 }]
+  },
+  {
+    "id": "CSE 360",
+    "code": "CSE 360",
+    "title": "Software Security",
+    "credits": 3,
+    "prerequisites": ["CSE 220"],
+    "offeredTerms": [{ "season": "Fall", "year": 2028 }]
+  },
+  {
+    "id": "CSE 370",
+    "code": "CSE 370",
+    "title": "Software Architecture",
+    "credits": 3,
+    "prerequisites": ["CSE 310"],
+    "offeredTerms": [{ "season": "Winter", "year": 2029 }]
+  },
+  {
+    "id": "CSE 480",
+    "code": "CSE 480",
+    "title": "Senior Project I",
+    "credits": 3,
+    "prerequisites": ["CSE 310"],
+    "offeredTerms": [{ "season": "Fall", "year": 2029 }]
+  },
+  {
+    "id": "CSE 481",
+    "code": "CSE 481",
+    "title": "Senior Project II",
+    "credits": 3,
+    "prerequisites": ["CSE 480"],
+    "offeredTerms": [{ "season": "Winter", "year": 2030 }]
+  },
+  {
+    "id": "MATH 108",
+    "code": "MATH 108",
+    "title": "College Algebra",
+    "credits": 3,
+    "prerequisites": [],
+    "offeredTerms": [{ "season": "Fall", "year": 2025 }, { "season": "Winter", "year": 2026 }]
+  },
+  {
+    "id": "MATH 212",
+    "code": "MATH 212",
+    "title": "Calculus I",
+    "credits": 4,
+    "prerequisites": ["MATH 108"],
+    "offeredTerms": [{ "season": "Winter", "year": 2026 }, { "season": "Spring", "year": 2026 }]
+  },
+  {
+    "id": "MATH 213",
+    "code": "MATH 213",
+    "title": "Calculus II",
+    "credits": 4,
+    "prerequisites": ["MATH 212"],
+    "offeredTerms": [{ "season": "Fall", "year": 2026 }]
+  },
+  {
+    "id": "FDMAT 108",
+    "code": "FDMAT 108",
+    "title": "Quantitative Reasoning",
+    "credits": 3,
+    "prerequisites": [],
+    "offeredTerms": [{ "season": "Fall", "year": 2025 }]
+  },
+  {
+    "id": "WRTG 150",
+    "code": "WRTG 150",
+    "title": "Writing and Rhetoric",
+    "credits": 3,
+    "prerequisites": [],
+    "offeredTerms": [{ "season": "Fall", "year": 2025 }, { "season": "Winter", "year": 2026 }]
+  },
+  {
+    "id": "REL 200",
+    "code": "REL 200",
+    "title": "Eternal Family",
+    "credits": 2,
+    "prerequisites": [],
+    "offeredTerms": [{ "season": "Fall", "year": 2025 }]
+  },
+  {
+    "id": "CIT 111",
+    "code": "CIT 111",
+    "title": "Introduction to IT",
+    "credits": 3,
+    "prerequisites": [],
+    "offeredTerms": [{ "season": "Fall", "year": 2025 }, { "season": "Spring", "year": 2026 }]
+  },
+  {
+    "id": "CIT 230",
+    "code": "CIT 230",
+    "title": "Networking",
+    "credits": 3,
+    "prerequisites": ["CIT 111"],
+    "offeredTerms": [{ "season": "Winter", "year": 2026 }]
+  },
+  {
+    "id": "CIT 380",
+    "code": "CIT 380",
+    "title": "Project Management",
+    "credits": 3,
+    "prerequisites": ["CIT 111"],
+    "offeredTerms": [{ "season": "Fall", "year": 2027 }]
+  }
+]
