@@ -58,22 +58,24 @@ export function CourseCard({
           ✎
         </span>
         <div className="course-card-iplan-body">
-          <strong>{title}</strong>
-          <span>{code}</span>
+          <strong>{code}</strong>
+          <span className="course-card-iplan-title">{title}</span>
         </div>
         <span className="course-card-iplan-credits">{credits}</span>
-        <div className="course-card-iplan-actions">
-          {status !== "completed" && onMarkComplete && (
-            <button type="button" className="iplan-action-btn" onClick={onMarkComplete}>
-              Complete
-            </button>
-          )}
-          {onRemove && (
-            <button type="button" className="iplan-action-btn" onClick={onRemove}>
-              Remove
-            </button>
-          )}
-        </div>
+        {(onMarkComplete || onRemove) && (
+          <div className="course-card-iplan-actions">
+            {status !== "completed" && onMarkComplete && (
+              <button type="button" className="iplan-action-btn" onClick={onMarkComplete}>
+                Complete
+              </button>
+            )}
+            {onRemove && (
+              <button type="button" className="iplan-action-btn" onClick={onRemove}>
+                Remove
+              </button>
+            )}
+          </div>
+        )}
       </article>
     );
   }
