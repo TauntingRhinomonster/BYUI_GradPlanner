@@ -3,11 +3,13 @@ import { Droppable, Draggable } from "@hello-pangea/dnd";
 import { CourseSearch } from "./CourseSearch";
 import { CourseCard } from "../planner/CourseCard";
 import { usePlanner } from "../../hooks/usePlanner";
+import { useDesktopDragDrop } from "../../hooks/useMediaQuery";
 import { getRequiredCourseIds, getUnassignedCourses } from "../../lib/progress";
 
 const CATALOG_DROPPABLE_ID = "catalog";
 
 export function CourseCatalog() {
+  const dragEnabled = useDesktopDragDrop();
   const { courses, degrees, plan, majorId, minorId, addCourse, markCompleted } =
     usePlanner();
   const [query, setQuery] = useState("");
@@ -43,67 +45,106 @@ export function CourseCatalog() {
     }
   }
 
+  function renderCatalogItem(course: (typeof availableCourses)[number], index: number) {
+    const meta = (
+      <div className="catalog-item-meta">
+        {requiredIds.has(course.id) && (
+          <span className="required-pill">Required</span>
+        )}
+        {dragEnabled && <span className="catalog-drag-hint">Drag to a semester</span>}
+        <button
+          type="button"
+          className="link-btn"
+          onClick={() => handleAddToCurrent(course.id)}
+        >
+          Add to plan
+        </button>
+        <button
+          type="button"
+          className="link-btn"
+          onClick={() => markCompleted(course.id)}
+        >
+          Mark completed
+        </button>
+      </div>
+    );
+
+    if (!dragEnabled) {
+      return (
+        <div key={course.id} className="catalog-item">
+          <CourseCard
+            code={course.code}
+            title={course.title}
+            credits={course.credits}
+            status="planned"
+          />
+          {meta}
+        </div>
+      );
+    }
+
+    return (
+      <Draggable key={course.id} draggableId={`catalog:${course.id}`} index={index}>
+        {(dragProvided, snapshot) => (
+          <div
+            ref={dragProvided.innerRef}
+            {...dragProvided.draggableProps}
+            {...dragProvided.dragHandleProps}
+            className={`catalog-item catalog-item--draggable ${snapshot.isDragging ? "catalog-item--dragging" : ""}`}
+          >
+            <CourseCard
+              code={course.code}
+              title={course.title}
+              credits={course.credits}
+              status="planned"
+              isDragging={snapshot.isDragging}
+            />
+            {meta}
+          </div>
+        )}
+      </Draggable>
+    );
+  }
+
+  const listContent = (
+    <>
+      {availableCourses.length === 0 && (
+        <p className="catalog-empty">No unassigned courses match your search.</p>
+      )}
+      {availableCourses.map((course, index) => renderCatalogItem(course, index))}
+    </>
+  );
+
   return (
     <section className="course-catalog">
       <header className="course-catalog-header">
         <div>
           <h2>Course Catalog</h2>
-          <p>Required courses for your major/minor appear first.</p>
+          <p>
+            {dragEnabled
+              ? "Drag courses into a semester column, or use Add to plan."
+              : "Required courses for your major/minor appear first."}
+          </p>
         </div>
         <CourseSearch query={query} onChange={setQuery} />
       </header>
 
-      <Droppable droppableId={CATALOG_DROPPABLE_ID}>
-        {(provided) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            className="course-catalog-list"
-          >
-            {availableCourses.length === 0 && (
-              <p className="catalog-empty">No unassigned courses match your search.</p>
-            )}
-
-            {availableCourses.map((course, index) => (
-              <Draggable key={course.id} draggableId={`catalog:${course.id}`} index={index}>
-                {(dragProvided, snapshot) => (
-                  <div ref={dragProvided.innerRef} className="catalog-item">
-                    <CourseCard
-                      code={course.code}
-                      title={course.title}
-                      credits={course.credits}
-                      status="planned"
-                      draggableProps={dragProvided.draggableProps}
-                      dragHandleProps={dragProvided.dragHandleProps}
-                      isDragging={snapshot.isDragging}
-                    />
-                    <div className="catalog-item-meta">
-                      {requiredIds.has(course.id) && (
-                        <span className="required-pill">Required</span>
-                      )}
-                      <button
-                        type="button"
-                        className="link-btn"
-                        onClick={() => handleAddToCurrent(course.id)}
-                      >
-                        Add to plan
-                      </button>
-                      <button
-                        type="button"
-                        className="link-btn"
-                        onClick={() => markCompleted(course.id)}
-                      >
-                        Mark completed
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
+      {dragEnabled ? (
+        <Droppable droppableId={CATALOG_DROPPABLE_ID}>
+          {(provided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className="course-catalog-list"
+            >
+              {listContent}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      ) : (
+        <div className="course-catalog-list">{listContent}</div>
+      )}
     </section>
   );
 }

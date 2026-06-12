@@ -6,9 +6,15 @@ import { formatTerm } from "../../types";
 
 interface SemesterColumnProps {
   semesterId: string;
+  variant?: "default" | "iplan";
+  dragEnabled?: boolean;
 }
 
-export function SemesterColumn({ semesterId }: SemesterColumnProps) {
+export function SemesterColumn({
+  semesterId,
+  variant = "default",
+  dragEnabled = true,
+}: SemesterColumnProps) {
   const {
     plan,
     getCourseById,
@@ -42,7 +48,7 @@ export function SemesterColumn({ semesterId }: SemesterColumnProps) {
         </button>
       </header>
 
-      <Droppable droppableId={semesterId}>
+      <Droppable droppableId={semesterId} isDropDisabled={!dragEnabled}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
@@ -58,11 +64,27 @@ export function SemesterColumn({ semesterId }: SemesterColumnProps) {
               if (!course) return null;
 
               const status = getCourseStatus(courseId, plan, semesterId);
+              const card = (
+                <CourseCard
+                  variant={variant}
+                  code={course.code}
+                  title={course.title}
+                  credits={course.credits}
+                  status={status}
+                  onRemove={() => removeCourse(semesterId, courseId)}
+                  onMarkComplete={() => markCompleted(courseId)}
+                />
+              );
+
+              if (!dragEnabled) {
+                return <div key={courseId}>{card}</div>;
+              }
 
               return (
                 <Draggable key={courseId} draggableId={courseId} index={index}>
                   {(dragProvided, dragSnapshot) => (
                     <CourseCard
+                      variant={variant}
                       code={course.code}
                       title={course.title}
                       credits={course.credits}

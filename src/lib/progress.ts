@@ -184,6 +184,93 @@ export function getRequiredCourseIds(degrees: Degree[], majorId: string | null, 
   return [...ids];
 }
 
+export interface CreditSummary {
+  completed: number;
+  inProgress: number;
+  planned: number;
+  unplanned: number;
+  total: number;
+}
+
+const SEASON_ORDER: Record<PlannedSemester["term"]["season"], number> = {
+  Fall: 0,
+  Winter: 1,
+  Spring: 2,
+};
+
+export function termToSortKey(term: PlannedSemester["term"]): number {
+  return term.year * 3 + SEASON_ORDER[term.season];
+}
+
+export function isSemesterPast(
+  semester: PlannedSemester,
+  plan: Pick<DegreePlan, "currentSemesterId" | "semesters">,
+): boolean {
+  const current = plan.semesters.find((s) => s.id === plan.currentSemesterId);
+  if (!current) return false;
+  return termToSortKey(semester.term) < termToSortKey(current.term);
+}
+
+export function findCourseSemester(
+  courseId: CourseId,
+  plan: DegreePlan,
+): PlannedSemester | undefined {
+  return plan.semesters.find((semester) => semester.courseIds.includes(courseId));
+}
+
+export function getCourseStatusLabel(courseId: CourseId, plan: DegreePlan): string {
+  if (plan.completedCourseIds.includes(courseId)) {
+    return "Completed";
+  }
+
+  const semester = findCourseSemester(courseId, plan);
+  if (!semester) {
+    return "Unplanned";
+  }
+
+  const termLabel = `${semester.term.season} ${semester.term.year}`;
+  if (plan.currentSemesterId === semester.id) {
+    return `Enrolled ${termLabel}`;
+  }
+
+  return `Planned ${termLabel}`;
+}
+
+export function getCreditSummary(
+  courses: Course[],
+  plan: DegreePlan,
+  totalRequired: number,
+): CreditSummary {
+  const courseMap = getCourseMap(courses);
+
+  const completed = plan.completedCourseIds.reduce(
+    (sum, id) => sum + (courseMap.get(id)?.credits ?? 0),
+    0,
+  );
+
+  const inProgress = plan.currentSemesterId
+    ? (plan.semesters.find((s) => s.id === plan.currentSemesterId)?.courseIds ?? [])
+        .filter((id) => !plan.completedCourseIds.includes(id))
+        .reduce((sum, id) => sum + (courseMap.get(id)?.credits ?? 0), 0)
+    : 0;
+
+  const planned = plan.semesters
+    .filter((semester) => semester.id !== plan.currentSemesterId)
+    .flatMap((semester) => semester.courseIds)
+    .filter((id) => !plan.completedCourseIds.includes(id))
+    .reduce((sum, id) => sum + (courseMap.get(id)?.credits ?? 0), 0);
+
+  const accounted = completed + inProgress + planned;
+
+  return {
+    completed,
+    inProgress,
+    planned,
+    unplanned: Math.max(0, totalRequired - accounted),
+    total: totalRequired,
+  };
+}
+
 export function getUnassignedCourses(
   courses: Course[],
   plan: DegreePlan,

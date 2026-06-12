@@ -5,6 +5,7 @@ import type {
 import type { CourseStatus } from "../../types";
 
 interface CourseCardProps {
+  variant?: "default" | "iplan";
   code: string;
   title: string;
   credits: number;
@@ -25,6 +26,7 @@ const statusLabels: Record<CourseStatus, string> = {
 };
 
 export function CourseCard({
+  variant = "default",
   code,
   title,
   credits,
@@ -37,6 +39,45 @@ export function CourseCard({
   onMarkIncomplete,
   isDragging = false,
 }: CourseCardProps) {
+  if (variant === "iplan") {
+    const tone =
+      status === "completed"
+        ? "completed"
+        : status === "in-progress"
+          ? "in-progress"
+          : "planned";
+
+    return (
+      <article
+        ref={innerRef}
+        className={`course-card-iplan course-card-iplan--${tone} ${isDragging ? "course-card--dragging" : ""}`}
+        {...draggableProps}
+        {...(dragHandleProps ?? {})}
+      >
+        <span className="course-card-iplan-edit" aria-hidden="true">
+          ✎
+        </span>
+        <div className="course-card-iplan-body">
+          <strong>{title}</strong>
+          <span>{code}</span>
+        </div>
+        <span className="course-card-iplan-credits">{credits}</span>
+        <div className="course-card-iplan-actions">
+          {status !== "completed" && onMarkComplete && (
+            <button type="button" className="iplan-action-btn" onClick={onMarkComplete}>
+              Complete
+            </button>
+          )}
+          {onRemove && (
+            <button type="button" className="iplan-action-btn" onClick={onRemove}>
+              Remove
+            </button>
+          )}
+        </div>
+      </article>
+    );
+  }
+
   return (
     <article
       ref={innerRef}
